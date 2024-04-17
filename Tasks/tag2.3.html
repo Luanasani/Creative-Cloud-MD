@@ -15,7 +15,8 @@
       <div class="tag" id="tag1">
         <h2>Tag 2</h2>
         <h4>Task</h4>
-        <p>Sort image pixels by (hue, saturation, lightness, occurance)Sort image pixels by (hue, saturation, lightness, occurance</p>
+        <p> Create an image so, that every odd pixel is from image A, every
+          even pixel from image B</p>
        
       </div>
     </center>
@@ -28,30 +29,18 @@ let img;
 
   function preload(){
       img = loadImage("../images/panda.jpg"); 
+      img = loadImage("../images/lixus.jpg"); 
+
   }
   
   function setup() {
-      createCanvas(600, 600);
-      pixelDensity(1);
+     
     }
   
 
   function draw(){
     background(0);
-    image(img,100,100,400,400);
-    img.loadPixels();
-    for (let i = 0; i < img.pixel.length; i += 4){
-      let red = img.pixels[i+0];
-      let green = img.pixels[i + 1];
-      let blue = img.pixels[i + 2];
-      let alpha = img.pixels[i + 3];
 
-      img.pixels[i + 0] = red;
-      img.pixels[i + 1] = green;
-      img.pixels[i + 2] = blue;
-      img.pixels[i + 3] = alpha;
-    }
-    img.updatePixels();
   }
   
   </script>
