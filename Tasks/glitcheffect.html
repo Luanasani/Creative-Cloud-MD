@@ -27,7 +27,7 @@
 
   // Lade das Bild
   function preload() {
-    img = loadImage("../images/lixus.png"); 
+    img = loadImage("../images/lixus.jpg"); 
   }
 
   function setup() {
@@ -36,18 +36,14 @@
   }
 
   function draw() {
+    
     loadPixels();
     for (let i = 0; i < pixels.length; i += 4) {
-      // Begrenze die Farbänderungen auf einen bestimmten Bereich
-      let r = pixels[i];
-      let g = pixels[i + 1];
-      let b = pixels[i + 2];
-      
-      // Füge eine zufällige Farbabweichung hinzu
-      pixels[i] = constrain(r + random(-20, 20), 0, 255); // Rot
-      pixels[i + 1] = constrain(g + random(-20, 20), 0, 255); // Grün
-      pixels[i + 2] = constrain(b + random(-20, 20), 0, 255); // Blau
-      // pixels[i + 3] bleibt unverändert, um die Transparenz beizubehalten
+     
+      pixels[i] = random(255); 
+      pixels[i + 1] = random(255); 
+      pixels[i + 2] = random(255); 
+      pixels[i + 3] = 255; 
     }
     updatePixels();
   }
