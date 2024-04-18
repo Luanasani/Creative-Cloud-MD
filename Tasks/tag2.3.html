@@ -1,46 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Creative Code</title>
-    <script src="/libraries/p5.min.js"></script>
-    <script src="/libraries/quicksettings.js"></script>
-    <script src="/libraries/p5.gui.js"></script>
-    <script src="/libraries/quicksettings.js"></script>
-  </head>
-  <body>
-    <a href="../index.html">Back</a>
-    <center>
-      <div class="tag" id="tag1">
-        <h2>Tag 2</h2>
-        <h4>Task</h4>
-        <p> Create an image so, that every odd pixel is from image A, every
-          even pixel from image B</p>
-       
-      </div>
-    </center>
-    <canvas id="mycanvas" width="400" height="400"></canvas>
-  </body>
-</html>
-<script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Code</title>
+  <script src="/libraries/p5.min.js"></script>
+</head>
+<body>
+  <a href="../index.html">Back</a>
+  <center>
+    <div class="tag" id="tag1">
+      <h2>Tag 2</h2>
+      <h4>Task</h4>
+      <p>Create an image so that every odd pixel is from image A, every even pixel from image B</p>
+    </div>
+  </center>
+  <canvas id="mycanvas" width="400" height="400"></canvas>
 
-let img;
+  <script>
+    let imgA, imgB;
 
-  function preload(){
-      img = loadImage("../images/panda.jpg"); 
-      img = loadImage("../images/lixus.jpg"); 
-
-  }
-  
-  function setup() {
-     
+    function preload() {
+      imgA = loadImage("../images/panda.jpg");
+      imgB = loadImage("../images/lixus.png");
     }
-  
 
-  function draw(){
-    background(0);
+    function setup() {
+      createCanvas(400, 400);
+      image(imgA, 0, 0, width, height);
 
-  }
-  
+      loadPixels();
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          let index = (x + y * width) * 4;
+          if (x % 2 === 0) { // Gerade Pixel
+            pixels[index] = red(imgB.get(x, y));
+            pixels[index + 1] = green(imgB.get(x, y));
+            pixels[index + 2] = blue(imgB.get(x, y));
+            pixels[index + 3] = alpha(imgB.get(x, y));
+          } else { // Ungerade Pixel
+            pixels[index] = red(imgA.get(x, y));
+            pixels[index + 1] = green(imgA.get(x, y));
+            pixels[index + 2] = blue(imgA.get(x, y));
+            pixels[index + 3] = alpha(imgA.get(x, y));
+          }
+        }
+      }
+      updatePixels();
+    }
   </script>
+</body>
+</html>
