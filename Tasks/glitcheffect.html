@@ -22,29 +22,27 @@
     <canvas id="mycanvas" width="400" height="400"></canvas>
   </body>
 </html>
-<script>
-  let img;
+  <script>
+    let img;
 
-  
-  function preload() {
-    img = loadImage("../images/lixus.jpg"); 
-  }
-
-  function setup() {
-    createCanvas(400, 400);
-    image(img, 0, 0, width, height); 
-  }
-
-  function draw() {
-    
-    loadPixels();
-    for (let i = 0; i < pixels.length; i += 4) {
-     
-      pixels[i] = random(255); 
-      pixels[i + 1] = random(255); 
-      pixels[i + 2] = random(255); 
-      pixels[i + 3] = 255; 
+   
+    function preload() {
+      img = loadImage("../images/lixus.png"); 
     }
-    updatePixels();
-  }
-</script>
+
+    function setup() {
+      createCanvas(400, 400);
+      image(img, 0, 0, width, height); 
+    }
+
+    function draw() {
+      loadPixels();
+      for (let i = 0; i < pixels.length; i += 4) {
+        pixels[i] = random(255); 
+        pixels[i + 1] = random(255);
+        pixels[i + 2] = random(255); 
+       
+      }
+      updatePixels();
+    }
+  </script>
