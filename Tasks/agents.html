@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creative Code</title>
+    <script src="/libraries/p5.min.js"></script>
+    <script src="/libraries/quicksettings.js"></script>
+    <script src="/libraries/p5.gui.js"></script>
+    <script src="/libraries/quicksettings.js"></script>
+  </head>
+  <body>
+    <a href="../index.html">Back</a>
+    <center>
+      <h2>Tag 3</h2>
+      <h4>Task</h4>
+    <a href="agents2.html">Agent 2</a>
+      <p>Create an Agent</p>
+
+    </center>
+  </body>
+</html>
+<script>
+  let agents = [];
+
+  function setup() {
+    createCanvas(windowWidth, windowHeight);
+    for (let i = 0; i < 10000; i++) {
+      agents.push(new Agent());
+    }
+  }
+
+  function draw() {
+    for (let i = 0; i < agents.length; i++) {
+      agents[i].draw();
+    }
+  }
+
+  function Agent() {
+    this.x = random(windowWidth);
+    this.y = random(windowHeight);
+  }
+
+  Agent.prototype.draw = function() {
+    stroke(0, 50);
+    line(this.lastX, this.lastY, this.x, this.y);
+    this.lastX = this.x;
+    this.lastY = this.y;
+    this.x = this.x + random(2) - 1;
+    this.y = this.y + random(2) - 1;
+  };
+</script>

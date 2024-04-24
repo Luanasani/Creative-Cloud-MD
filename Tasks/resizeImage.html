@@ -11,28 +11,22 @@
   </head>
   <style>
     canvas {
-      border: 2px solid black; 
+      border: 2px solid black;
     }
   </style>
   <body>
     <nav><a href="../index.html">Back</a></nav>
     <center>
-      <div class="tag" id="tag1">
-        <h2>Tag 2</h2>
-        <h4>Task</h4>
-        <p>Resize an image based on interactivity (mouseX / mouseY /…)</p>
-       
-      </div>
+      <h4>Task</h4>
+      <p>Resize an image based on interactivity (mouseX / mouseY /…)</p>
     </center>
-    
   </body>
 </html>
 <script>
   let img;
 
-  
   function preload() {
-    img = loadImage('../images/panda.jpg');
+    img = loadImage("../images/panda.jpg");
   }
 
   function setup() {
@@ -40,14 +34,11 @@
   }
 
   function draw() {
-    
     background(255);
-    
-    
-    let scaledWidth = mouseX; 
-    let scaledHeight = mouseY; 
-    
-    
+
+    let scaledWidth = mouseX;
+    let scaledHeight = mouseY;
+
     image(img, 0, 0, scaledWidth, scaledHeight);
   }
 </script>

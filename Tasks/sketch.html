@@ -13,30 +13,27 @@
     <nav><a href="../index.html">Back</a></nav>
 
     <center>
-      <div class="tag" id="tag1">
-        <h2>Tag 1</h2>
-        <h4>Task</h4>
-        <div><script src="/js/tag1.js"></script></div>
-      </div>
+      <h2>Tag 1</h2>
+      <h4>Task</h4>
     </center>
   </body>
 </html>
 <script>
   function setup() {
-  createCanvas(400, 400);
-  background(250);
-  xPos = width / 2;
-  yPos = height / 2;
+    createCanvas(400, 400);
+    background(250);
+    xPos = width / 2;
+    yPos = height / 2;
 
-  noStroke();
+    noStroke();
 
-  for (let x = 0; x < windowWidth; x += 25) {
-    for (let y = 0; y < windowHeight; y += 25) {
-      fill(random(1, 230));
-      circle(y, x, random(0, 30));
+    for (let x = 0; x < windowWidth; x += 25) {
+      for (let y = 0; y < windowHeight; y += 25) {
+        fill(random(1, 230));
+        circle(y, x, random(0, 30));
+      }
     }
   }
-}
 
-function draw() {}
+  function draw() {}
 </script>
