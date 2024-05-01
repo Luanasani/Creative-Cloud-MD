@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creative Code</title>
+    <script src="/libraries/p5.min.js"></script>
+    <script src="/libraries/quicksettings.js"></script>
+    <script src="/libraries/p5.gui.js"></script>
+    <script src="/libraries/quicksettings.js"></script>
+  </head>
+  <body>
+    <a href="../index.html">Back</a>
+    <center>
+      <h2>Tag 4</h2>
+      <h4>Task</h4>
+      <p>Create an L-System</p>
+
+    </center>
+  </body>
+</html>
+<script>
+  let rules = {
+  "X": "F+[[X]-X]-F[-FX]+X",
+  "F": "FF"
+}
+
+let len = 10;
+let ang;
+
+let drawRules;
+
+let word = "X";
+
+function setup() {
+  createCanvas(400, 400);
+  ang = 10;
+  
+  drawRules = {
+    "F": () => {
+      stroke(100, 50, 0);
+      line(0, 0, 0, -len);
+      translate(0, -len);
+    },
+    "+": () => {
+      rotate(PI/180 * -ang);
+    },
+    "-": () => {
+      rotate(PI/180 * ang);
+      },
+    "[": push,
+    "]": () => {
+      noStroke();
+      fill(0, 0, 0);
+      ellipse(0, 0, 2 * len, 5 * len);
+      pop();
+    },
+  }
+  
+  noLoop();
+}
+
+function draw() {
+  background(220);
+  
+  push();
+  translate(width/4, height);
+  rotate(PI/180 * ang);
+  for(let i = 0; i < word.length; i ++) {
+    let c = word[i];
+    if(c in drawRules) {
+      drawRules[c]();
+    }  
+  }
+  pop();
+}
+
+function mouseReleased() {
+  word = generate();
+  draw();
+}
+
+function generate() {
+  let next = ""
+  
+  for(let i = 0; i < word.length; i ++) {
+    let c = word[i];
+    if(c in rules) {
+      next += rules[c];
+    } else {
+      next += c;
+    }
+  }
+  
+  return next;
+}
+</script>
