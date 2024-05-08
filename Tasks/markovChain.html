@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creative Code</title>
+    <script src="../libraries/p5.min.js"></script>
+    <script src="../libraries/quicksettings.js"></script>
+    <script src="../libraries/p5.gui.js"></script>
+    <script src="../libraries/quicksettings.js"></script>
+  </head>
+  <body>
+    <nav><a href="../index.html">Back</a></nav>
+
+    <center>
+      <h2>Tag 5</h2>
+      <h4>Task</h4>
+    </center>
+  </body>
+</html>
+<script>
+var order = 2; 
+var ngrams = {};
+var button;
+var txt;
+
+function preload() {
+  txt = loadStrings('../shakespeare.txt');
+}
+
+function setup() {
+  noCanvas();
+
+  if (txt) {
+    for (var j = 0; j < txt.length; j++) {
+      for (var i = 0; i <= txt[j].length - order; i++) { 
+        var gram = txt[j].substring(i, i + order);
+
+        if (!ngrams[gram]) { 
+          ngrams[gram] = [];
+        }
+        ngrams[gram].push(txt[j].charAt(i + order)); 
+      }
+    }
+
+    button = createButton("generate"); 
+    button.mousePressed(marKov);
+    console.log(ngrams);
+  } else {
+    console.error('Failed to load text file!');
+  }
+}
+
+function marKov() {
+  var currentGram = txt[0].substring(0, order); 
+  var result = currentGram;
+
+  for (var i = 0; i < 100; i++) { 
+    var possibilities = ngrams[currentGram]; 
+    if (!possibilities) { 
+      break;
+    }
+    var next = random(possibilities);
+    result += next; 
+    var len = result.length;
+    currentGram = result.substring(len - order, len);
+  }
+
+  createP(result);
+}
+
+
+</script>
