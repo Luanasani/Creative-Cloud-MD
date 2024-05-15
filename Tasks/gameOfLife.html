@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creative Code</title>
+    <script src="/libraries/p5.min.js"></script>
+    <script src="/libraries/quicksettings.js"></script>
+    <script src="/libraries/p5.gui.js"></script>
+    <script src="/libraries/quicksettings.js"></script>
+  </head>
+  <body>
+    <a href="../index.html">Back</a>
+    <center>
+      <h2>Tag 6</h2>
+      <h4>Task</h4>
+      <p>Game of Life</p>
+
+    </center>
+
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5204.243755982885!2d7.885095105589004!3d46.29292111920621!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f6b16d5b66673%3A0x1c71b53ab3f83185!2sBerufsfachschule%20Oberwallis!5e0!3m2!1sde!2sch!4v1715765938175!5m2!1sde!2sch" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </body>
+</html>
+<script>
+let cols, rows;
+let resolution = 10;
+let grid;
+
+function setup() {
+  createCanvas(800, 800);
+  cols = width / resolution;
+  rows = height / resolution;
+  grid = make2DArray(cols, rows);
+  initializeGrid();
+  frameRate(10);
+}
+
+function draw() {
+  background(255);
+
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      fill(grid[i][j]);
+      stroke(0);
+      rect(i * resolution, j * resolution, resolution, resolution);
+    }
+  }
+
+  spreadColors();
+}
+
+function make2DArray(cols, rows) {
+  let arr = new Array(cols);
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = new Array(rows);
+  }
+  return arr;
+}
+
+function initializeGrid() {
+  // Initialize the four corners with different colors
+  grid[0][0] = color(255, 0, 0); // Red
+  grid[cols - 1][0] = color(0, 255, 0); // Green
+  grid[0][rows - 1] = color(0, 0, 255); // Blue
+  grid[cols - 1][rows - 1] = color(255, 255, 0); // Yellow
+
+  // Fill the rest of the grid with white
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      if (!grid[i][j]) {
+        grid[i][j] = color(255);
+      }
+    }
+  }
+}
+
+function spreadColors() {
+  let newGrid = make2DArray(cols, rows);
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      newGrid[i][j] = grid[i][j];
+      if (grid[i][j] != color(255)) {
+        let neighbors = getNeighbors(i, j);
+        for (let n of neighbors) {
+          if (random(1) < 0.25) {
+            newGrid[n[0]][n[1]] = grid[i][j];
+          }
+        }
+      }
+    }
+  }
+  grid = newGrid;
+}
+
+function getNeighbors(x, y) {
+  let neighbors = [];
+  if (x > 0) neighbors.push([x - 1, y]);
+  if (x < cols - 1) neighbors.push([x + 1, y]);
+  if (y > 0) neighbors.push([x, y - 1]);
+  if (y < rows - 1) neighbors.push([x, y + 1]);
+  return neighbors;
+}
+
+</script>
