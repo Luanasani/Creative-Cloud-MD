@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creative Code</title>
+    <script src="/libraries/p5.min.js"></script>
+    <script src="/libraries/quicksettings.js"></script>
+    <script src="/libraries/p5.gui.js"></script>
+    <script src="/libraries/quicksettings.js"></script>
+  </head>
+  <style>
+       body {
+        color: white;   
+        background-color: #000;
+       }
+  </style>
+  <body>
+    <a href="../index.html">Back</a>
+    <center>
+      <div class="tag" id="tag1">
+        <h2>Tag 2</h2>
+        <h4>Task</h4>
+        <p>Create an image glitch effect</p>
+       
+      </div>
+    </center>
+    <canvas id="mycanvas" width="400" height="400"></canvas>
+  </body>
+</html>
+<script>
+
+    let img;
+
+    function preload() {
+      // Ein Beispielbild von einem Auto laden (ersetzen Sie den Link durch ein tatsächliches Bild eines Autos)
+      img = loadImage('../images/amggt63.jpg');
+    }
+
+    function setup() {
+      createCanvas(img.width, img.height);
+      image(img, 0, 0);
+      glitchImage();
+    }
+
+    function draw() {}
+
+    function glitchImage() {
+      let glitchIterations = 30; // Anzahl der Glitch-Iterationen
+
+      for (let i = 0; i < glitchIterations; i++) {
+        let x = int(random(width));
+        let y = int(random(height));
+        let w = int(random(10, 50));
+        let h = int(random(10, 50));
+
+        let srcX = int(random(width - w));
+        let srcY = int(random(height - h));
+
+        // Verschieben eines Rechtecks von der Bildquelle
+        copy(img, srcX, srcY, w, h, x, y, w, h);
+
+        // Zufällige Farbanpassung
+        loadPixels();
+        for (let j = 0; j < 4 * width * height; j += 4) {
+          if (random() < 0.05) { // 5% der Pixel anpassen
+            pixels[j] = pixels[j] + random(-50, 50); // R
+            pixels[j + 1] = pixels[j + 1] + random(-50, 50); // G
+            pixels[j + 2] = pixels[j + 2] + random(-50, 50); // B
+          }
+        }
+        updatePixels();
+      }
+    }
+ 
+</script>

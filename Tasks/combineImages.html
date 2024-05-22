@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creative Code</title>
+  <script src="/libraries/p5.min.js"></script>
+  <script src="/libraries/quicksettings.js"></script>
+  <script src="/libraries/p5.gui.js"></script>
+  <style>
+    body {
+      padding-top: 60px;
+    }
+    #canvas-container {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <a href="../index.html">Back</a>
+  <center>
+    <div class="tag" id="tag1">
+      <h2>Tag 2</h2>
+      <h4>Task</h4>
+      <p>Create Combined Images</p>
+    </div>
+  </center>
+  <div id="canvas-container">
+    <canvas id="mycanvas" width="800" height="600"></canvas>
+  </div>
+  <script>
+    let img1, img2;
+    const canvasWidth = 800;
+    const canvasHeight = 600;
+
+    function preload() {
+      img1 = loadImage('../images/messi.jpg');
+      img2 = loadImage('../images/goat.jpg');
+    }
+
+    function setup() {
+      let canvas = createCanvas(canvasWidth, canvasHeight);
+      canvas.parent("canvas-container");
+
+      // Resize images to fit the canvas
+      img1.resize(canvasWidth, canvasHeight);
+      img2.resize(canvasWidth, canvasHeight);
+
+      // Draw the first image
+      image(img1, 0, 0);
+
+      // Apply blend mode and draw the second image
+      blendMode(MULTIPLY);
+      image(img2, 0, 0);
+    }
+  </script>
+</body>
+</html>

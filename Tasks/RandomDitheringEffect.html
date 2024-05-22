@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creative Code</title>
+  <script src="/libraries/p5.min.js"></script>
+  <script src="/libraries/quicksettings.js"></script>
+  <script src="/libraries/p5.gui.js"></script>
+  <style>
+    body {
+      padding-top: 60px;
+    }
+    #canvas-container {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <a href="../index.html">Back</a>
+  <center>
+    <div class="tag" id="tag1">
+      <h2>Tag 2</h2>
+      <h4>Task</h4>
+      <p>Create Combined Images</p>
+    </div>
+  </center>
+  <div id="canvas-container">
+    <canvas id="mycanvas" width="800" height="600"></canvas>
+  </div>
+  <script>
+    let img;
+
+    function preload() {
+      img = loadImage('../images/merkat.jpg');
+    }
+
+    function setup() {
+      let canvas = createCanvas(800, 600);
+      canvas.parent("canvas-container");
+      img.resize(width, height);
+      img.loadPixels();
+
+      // Apply random dithering
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          let index = (x + y * width) * 4;
+          let r = img.pixels[index];
+          let g = img.pixels[index + 1];
+          let b = img.pixels[index + 2];
+          
+          let avg = (r + g + b) / 3;
+          let threshold = random(255);
+          let value = avg > threshold ? 255 : 0;
+
+          img.pixels[index] = value;
+          img.pixels[index + 1] = value;
+          img.pixels[index + 2] = value;
+        }
+      }
+
+      img.updatePixels();
+      image(img, 0, 0);
+    }
+  </script>
+</body>
+</html>
