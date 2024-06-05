@@ -1,82 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Creative Code</title>
-    <script src="../libraries/p5.min.js"></script>
-    <script src="../libraries/quicksettings.js"></script>
-    <script src="../libraries/p5.gui.js"></script>
-    <script src="../libraries/quicksettings.js"></script>
-  </head>
-  <body>
-    <nav><a href="../index.html">Back</a></nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creative Code</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/addons/p5.sound.min.js"></script>
+</head>
+<body>
+  <nav><a href="../index.html">Back</a></nav>
+  <center>
+    <h2>Tag 7</h2>
+    <h4>Task</h4>
+    <p>Link zu Tutorial:</p>
+    <p>https://www.youtube.com/watch?v=8B3GzZo-z9A</p>
+    <button id="audio" onclick="toggleAudio()">Play</button>
+    <button onclick="saveCanvas('SS', 'png')">Save</button>
+    <p id="loading-message">Loading...</p>
+  </center>
 
-    <center>
-      <h2>Tag 7</h2>
-      <h4>Task</h4>
-    </center>
-  </body>
-</html>
-<script>
-  let cols, rows;
-  let scl = 20;
-  let w = 1400;
-  let h = 1000;
-  let terrain = [];
-  let flying = 0;
-  let angleX = 0;
-  let angleY = 0;
+  <script>
+    let song, playing, fft, a, b, layer, fr;
 
-  function setup() {
-    createCanvas(windowWidth, windowHeight, WEBGL);
-    cols = w / scl;
-    rows = h / scl;
-
-    for (let x = 0; x < cols; x++) {
-      terrain[x] = [];
-      for (let y = 0; y < rows; y++) {
-        terrain[x][y] = 0; // Initialisiere die Höhenwerte
-      }
-    }
-  }
-
-  function draw() {
-    flying -= 0.05;
-    let yoff = flying;
-    for (let y = 0; y < rows; y++) {
-      let xoff = 0;
-      for (let x = 0; x < cols; x++) {
-        terrain[x][y] = map(noise(xoff, yoff), 0, 1, -100, 100);
-        xoff += 0.1;
-      }
-      yoff += 0.1;
+    function preload() {
+      song = loadSound("eminem.mp3");
+      playing = false;
+      fr = 60;
     }
 
-    background(0);
-    stroke(255);
-    noFill();
-    translate(0, 50);
-    rotateX(angleX);
-    rotateY(angleY);
-    translate(-w / 2, -h / 2);
+    function setup() {
+      document.getElementById("loading-message").innerText = ""; 
+      createCanvas(500, 500);
+      layer = createGraphics(width, height);
+      background('black');
+      // Erstelle einen FFT-Objekt für die Audioanalyse
+      fft = new p5.FFT(0, 256);
+      // Berechne die Drehgeschwindigkeit basierend auf der Songdauer und der Framerate
+      a = 360 / ((song.duration()) * fr);
+      b = a;
+      frameRate(fr);
+    }
 
-    for (let y = 0; y < rows - 1; y++) {
-      beginShape(TRIANGLE_STRIP);
-      for (let x = 0; x < cols; x++) {
-        vertex(x * scl, y * scl, terrain[x][y]);
-        vertex(x * scl, (y + 1) * scl, terrain[x][y + 1]);
+    function draw() {
+      background(0);
+      layer.noFill();
+      layer.colorMode(RGB);
+      // Analysiere das Audiospektrum
+      let spectrumA = fft.analyze();
+      // Kehre das Spektrum um, um die niedrigen Frequenzen oben anzuzeigen
+      let spectrumB = [...spectrumA].reverse();
+      // Entferne die ersten 40 Werte, um unerwünschte niedrige Frequenzen zu eliminieren
+      spectrumB.splice(0, 40);
+
+      // Zeichne das Spektrum auf der Hauptzeichnungsschicht
+      push();
+      translate(250, 250);
+      noFill();
+      stroke('red');
+
+      beginShape();
+      for (let i = 0; i < spectrumB.length; i++) {
+        let amp = spectrumB[i];
+        let x = map(amp, 0, 256, -2, 2);
+        let y = map(i, 0, spectrumB.length, 30, 215);
+        vertex(x, y);
       }
       endShape();
+      pop();
+
+      // Zeichne das Spektrum auf der separaten Zeichnungsschicht
+      push();
+      translate(width / 2, height / 2);
+      rotate(radians(a));
+
+      layer.push();
+      layer.translate(width / 2, height / 2);
+      layer.rotate(radians(-a));
+
+      for (let i = 0; i < spectrumB.length; i++) {
+        layer.strokeWeight(0.018 * spectrumB[i]);
+        layer.stroke(245, 132, 255  - spectrumB[i], spectrumB[i] / 40);
+        layer.line(0, i, 0, i);
+      }
+
+      layer.pop();
+      image(layer, -width / 2, -height / 2);
+      pop();
+
+      // Aktualisiere den Drehwinkel für die Animation
+      if (playing) a += b;
     }
-  }
 
-  function mouseDragged() {
-    angleY += movedX * 0.01;
-    angleX -= movedY * 0.01;
-  }
-
-  function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-  }
-</script>
+    // Funktion zum Umschalten der Audiowiedergabe
+    function toggleAudio() {
+      if (!playing) {
+        song.play();
+        document.getElementById("audio").innerText = "Pause";
+      } else {
+        song.pause();
+        document.getElementById("audio").innerText = "Play";
+      }
+      playing = !playing;
+    }
+  </script>
+</body>
+</html>
