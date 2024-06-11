@@ -6,6 +6,29 @@
     <title>Creative Code</title>
     <link rel="stylesheet" href="style/style.css" />
   </head>
+  <style>
+        .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+    .gallery-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 500px;
+    }
+    .gallery-item img {
+      max-width: 100%;
+      height: auto;
+    }
+    .gallery-item p {
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
   <body>
     <header>
       <h1>Welcome to Creative Coding</h1>
@@ -64,8 +87,25 @@
           <a href="Tasks/spectogram.html">Spectrogram</a>
         </div>
     </nav>
-    <footer>
-      <p>&copy; 2024 Creative Coding. All rights reserved.</p>
-    </footer>
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="Agent.png" alt="Agent">
+        <p>This is an image representing an agent in a simulation.</p>
+      </div>
+      <div class="gallery-item">
+        <img src="Shapes.png" alt="Shapes">
+        <p>This image showcases various geometric shapes.</p>
+      </div>
+      <div class="gallery-item">
+        <img src="Sketch.png" alt="Sketch">
+        <p>An artistic sketch created with creative coding techniques.</p>
+      </div>
+      <div class="gallery-item">
+        <img src="SS.png" alt="SS">
+        <p>A screenshot of a Spectogram project result.</p>
+      </div>
+    </div>
+
+
   </body>
 </html>
